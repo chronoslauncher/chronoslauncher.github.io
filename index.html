@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090d16">
-  <meta name="description" content="Chronos is a clean, customisable Minecraft launcher. Manage instances, mods and modpacks in one place.">
-  <title>Chronos — Minecraft, on your terms</title>
+  <meta name="description" content="Chronos — Minecraft's best cracked launcher. Clean, customisable, and built for your setup.">
+  <title>Chronos — Minecraft's best cracked launcher</title>
   <style>
     :root {
       color-scheme: dark;
@@ -19,6 +19,7 @@
       --blue: #65baff;
       --glow-yellow: rgba(255, 209, 102, .22);
       --glow-blue: rgba(101, 186, 255, .20);
+      --card-hover: rgba(101, 186, 255, .06);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 90px; }
@@ -34,6 +35,8 @@
     }
     a { color: inherit; text-decoration: none; }
     .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    /* header */
     header {
       position: sticky; top: 0; z-index: 10;
       border-bottom: 1px solid var(--line);
@@ -62,6 +65,8 @@
     }
     .button.secondary { color: var(--text); border: 1px solid rgba(101,186,255,.35); background: rgba(101,186,255,.07); }
     .nav-download:hover, .button:hover { transform: translateY(-2px); box-shadow: 0 0 34px var(--glow-yellow); }
+
+    /* hero */
     .hero { padding: 112px 0 92px; text-align: center; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px;
@@ -74,6 +79,8 @@
     .hero p { max-width: 620px; margin: 0 auto; color: var(--muted); font-size: 17px; }
     .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
     .subnote { margin-top: 17px !important; font-size: 11px !important; }
+
+    /* preview window */
     .preview {
       max-width: 900px; margin: 70px auto 0; padding: 10px; border: 1px solid rgba(101,186,255,.24);
       border-radius: 20px; background: linear-gradient(145deg, rgba(101,186,255,.10), rgba(255,209,102,.07));
@@ -100,16 +107,22 @@
     .mock-bars { display: flex; gap: 8px; margin-top: 17px; }
     .mock-bars i { height: 6px; flex: 1; border-radius: 10px; background: #26374d; }
     .mock-bars i:first-child { background: var(--yellow); }
+
+    /* sections */
     section { padding: 76px 0; }
     .section-head { max-width: 650px; margin: 0 auto 38px; text-align: center; }
     .kicker { color: var(--blue); font-size: 11px; font-weight: 850; letter-spacing: .18em; text-transform: uppercase; }
     h2 { margin: 10px 0; font-size: clamp(29px, 4vw, 42px); letter-spacing: -.045em; line-height: 1.15; }
     .section-head p { margin: 0; color: var(--muted); }
+
+    /* feature grid */
     .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
     .feature {
       min-height: 180px; padding: 23px; border: 1px solid var(--line); border-radius: 16px;
       background: linear-gradient(145deg, rgba(20,31,48,.92), rgba(13,20,32,.92));
+      transition: border-color .2s ease, background .2s ease;
     }
+    .feature:hover { border-color: rgba(101,186,255,.35); background: linear-gradient(145deg, rgba(22,35,54,.96), rgba(14,22,36,.96)); }
     .feature-icon {
       width: 38px; height: 38px; display: grid; place-items: center; margin-bottom: 18px;
       border: 1px solid rgba(101,186,255,.22); border-radius: 11px; color: var(--blue);
@@ -118,6 +131,8 @@
     .feature:nth-child(2n) .feature-icon { color: var(--yellow); border-color: rgba(255,209,102,.22); background: rgba(255,209,102,.08); }
     .feature h3 { margin: 0 0 7px; font-size: 15px; }
     .feature p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    /* download panel */
     .download-panel {
       display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px;
       padding: 36px; border: 1px solid rgba(255,209,102,.25); border-radius: 20px;
@@ -126,12 +141,20 @@
     }
     .download-panel h2 { margin-top: 0; }
     .download-panel p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    /* faq — clean, no instructions */
     .faq { max-width: 760px; margin: auto; }
     details { padding: 17px 0; border-bottom: 1px solid var(--line); }
-    summary { cursor: pointer; font-size: 14px; font-weight: 750; }
+    summary { cursor: pointer; font-size: 14px; font-weight: 750; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--blue); font-size: 18px; font-weight: 400; transition: transform .2s ease; }
+    details[open] summary::after { content: "−"; }
     details p { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+
     footer { margin-top: 60px; padding: 28px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
     .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    /* responsive */
     @media (max-width: 760px) {
       .links { gap: 14px; } .links a { font-size: 11px; } .nav-download { padding: 9px 11px; font-size: 11px; }
       .hero { padding: 80px 0 60px; } .mock { grid-template-columns: 120px 1fr; }
@@ -167,16 +190,17 @@
   </header>
 
   <main id="top">
+    <!-- hero: new headline emphasising "Best Cracked Launcher" -->
     <section class="hero">
       <div class="wrap">
-        <div class="eyebrow"><span class="dot"></span> Built for your Minecraft setup</div>
-        <h1>Your Minecraft.<br><span class="gradient">Your Chronos.</span></h1>
-        <p>A clean, customisable launcher that keeps your instances, mods and modpacks together. Less setup. More playing.</p>
+        <div class="eyebrow"><span class="dot"></span> Minecraft’s best cracked launcher</div>
+        <h1>Minecraft’s best<br><span class="gradient">cracked launcher.</span></h1>
+        <p>Chronos gives you the cleanest, most customisable way to play. Separate instances, mods, modpacks — all in one sleek, fast launcher. No compromises.</p>
         <div class="actions">
           <a class="button primary" href="./ChronosLauncher.exe" download>↓ Get Chronos for Windows</a>
           <a class="button secondary" href="#info">Explore features <span aria-hidden="true">↘</span></a>
         </div>
-        <p class="subnote">Windows desktop app · Minecraft Java Edition</p>
+        <p class="subnote">Windows desktop app · Minecraft Java Edition · No account restrictions</p>
 
         <div class="preview" aria-label="Chronos launcher interface preview">
           <div class="app-window">
@@ -227,7 +251,7 @@
           <div>
             <div class="kicker">Ready when you are</div>
             <h2>Meet your new launcher.</h2>
-            <p>Download Chronos for Windows and keep your Minecraft setup organised.</p>
+            <p>Download Chronos for Windows and keep your Minecraft setup organised. The best cracked launcher experience, period.</p>
           </div>
           <a class="button primary" href="./ChronosLauncher.exe" download>↓ Download .exe</a>
         </div>
@@ -241,10 +265,11 @@
           <h2>A few quick answers.</h2>
         </div>
         <div class="faq">
-          <details><summary>Where do I put the launcher file?</summary><p>Upload <strong>ChronosLauncher.exe</strong> into the same GitHub repository as this index.html file. The download links on this page will then point to it.</p></details>
+          <!-- FAQ items — no instructions about where to put the file -->
           <details><summary>Does Chronos need an internet connection?</summary><p>An internet connection is needed to download Minecraft files, browse mods and sign in. Already-downloaded game files can be managed locally.</p></details>
           <details><summary>Can I use my own mods?</summary><p>Yes. You can add compatible .jar mods to an instance, or browse supported Fabric mods inside the launcher.</p></details>
           <details><summary>Is this an official Minecraft product?</summary><p>No. Chronos is an independent community launcher and is not affiliated with or endorsed by Mojang or Microsoft.</p></details>
+          <details><summary>What makes it the best cracked launcher?</summary><p>Chronos focuses on clean design, flexible instance management, and seamless mod support — no restrictions, no bloat, just your Minecraft.</p></details>
         </div>
       </div>
     </section>
