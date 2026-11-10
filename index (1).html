@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="Chronos is a clean, customisable Minecraft launcher. Manage instances, mods and modpacks in one place.">
+  <title>Chronos — Minecraft, on your terms</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080c14;
+      --panel: #101827;
+      --panel-2: #131f31;
+      --line: rgba(151, 181, 216, .14);
+      --text: #eef4ff;
+      --muted: #91a2ba;
+      --yellow: #ffd166;
+      --blue: #65baff;
+      --glow-yellow: rgba(255, 209, 102, .22);
+      --glow-blue: rgba(101, 186, 255, .20);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 12% 8%, rgba(255, 209, 102, .09), transparent 34rem),
+        radial-gradient(ellipse at 88% 22%, rgba(74, 164, 255, .10), transparent 38rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 12, 20, .78);
+      backdrop-filter: blur(18px);
+    }
+    .nav { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-size: 19px; font-weight: 800; letter-spacing: -.04em; }
+    .brand-mark {
+      width: 37px; height: 37px; display: grid; place-items: center; border-radius: 12px;
+      color: #101521; font-size: 21px; font-weight: 900;
+      background: linear-gradient(135deg, var(--yellow), #ffe8a5);
+      box-shadow: 0 0 24px var(--glow-yellow);
+    }
+    .brand small { display: block; margin-top: -5px; color: var(--muted); font-size: 9px; letter-spacing: .25em; }
+    .links { display: flex; align-items: center; gap: 30px; color: var(--muted); font-size: 13px; font-weight: 650; }
+    .links a:hover { color: var(--text); }
+    .nav-download, .button {
+      display: inline-flex; justify-content: center; align-items: center; gap: 9px;
+      border-radius: 12px; padding: 11px 17px; font-weight: 800; font-size: 13px;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .nav-download, .button.primary {
+      color: #151923; background: linear-gradient(135deg, #ffdc83, var(--yellow));
+      box-shadow: 0 0 28px var(--glow-yellow);
+    }
+    .button.secondary { color: var(--text); border: 1px solid rgba(101,186,255,.35); background: rgba(101,186,255,.07); }
+    .nav-download:hover, .button:hover { transform: translateY(-2px); box-shadow: 0 0 34px var(--glow-yellow); }
+    .hero { padding: 112px 0 92px; text-align: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px;
+      color: #c9d8ed; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(17, 24, 39, .7); font-size: 11px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 12px var(--blue); }
+    h1 { max-width: 850px; margin: 25px auto 18px; font-size: clamp(43px, 7vw, 76px); line-height: 1.02; letter-spacing: -.065em; }
+    .gradient { color: var(--yellow); text-shadow: 0 0 35px var(--glow-yellow); }
+    .hero p { max-width: 620px; margin: 0 auto; color: var(--muted); font-size: 17px; }
+    .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .subnote { margin-top: 17px !important; font-size: 11px !important; }
+    .preview {
+      max-width: 900px; margin: 70px auto 0; padding: 10px; border: 1px solid rgba(101,186,255,.24);
+      border-radius: 20px; background: linear-gradient(145deg, rgba(101,186,255,.10), rgba(255,209,102,.07));
+      box-shadow: 0 20px 90px rgba(0,0,0,.38), 0 0 45px var(--glow-blue);
+    }
+    .app-window { overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: #0d1421; text-align: left; }
+    .windowbar { height: 42px; display: flex; align-items: center; gap: 7px; padding: 0 15px; border-bottom: 1px solid var(--line); color: #8294ad; font-size: 11px; }
+    .windowbar i { width: 7px; height: 7px; display: block; border-radius: 50%; background: #42536b; }
+    .windowbar span { margin-left: 7px; }
+    .mock { display: grid; grid-template-columns: 175px 1fr; min-height: 290px; }
+    .mock-side { padding: 22px 15px; border-right: 1px solid var(--line); background: #101a29; }
+    .mock-logo { margin-bottom: 28px; font-weight: 850; font-size: 16px; }
+    .mock-logo b { color: var(--yellow); }
+    .mock-item { margin: 7px 0; padding: 9px 11px; border-radius: 8px; color: #8fa2bc; font-size: 11px; }
+    .mock-item.active { color: var(--yellow); background: rgba(255,209,102,.10); }
+    .mock-main { padding: 25px; }
+    .mock-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .mock-top h3 { margin: 0; font-size: 20px; }
+    .tag { color: var(--blue); font-size: 10px; font-weight: 800; }
+    .mock-card { margin-top: 20px; padding: 19px; border: 1px solid var(--line); border-radius: 12px; background: #121d2c; }
+    .mock-card strong { font-size: 15px; }
+    .mock-card p { margin: 5px 0 16px; color: var(--muted); font-size: 11px; }
+    .mock-play { display: inline-block; padding: 9px 24px; border-radius: 8px; color: #111722; background: var(--blue); font-size: 11px; font-weight: 900; }
+    .mock-bars { display: flex; gap: 8px; margin-top: 17px; }
+    .mock-bars i { height: 6px; flex: 1; border-radius: 10px; background: #26374d; }
+    .mock-bars i:first-child { background: var(--yellow); }
+    section { padding: 76px 0; }
+    .section-head { max-width: 650px; margin: 0 auto 38px; text-align: center; }
+    .kicker { color: var(--blue); font-size: 11px; font-weight: 850; letter-spacing: .18em; text-transform: uppercase; }
+    h2 { margin: 10px 0; font-size: clamp(29px, 4vw, 42px); letter-spacing: -.045em; line-height: 1.15; }
+    .section-head p { margin: 0; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .feature {
+      min-height: 180px; padding: 23px; border: 1px solid var(--line); border-radius: 16px;
+      background: linear-gradient(145deg, rgba(20,31,48,.92), rgba(13,20,32,.92));
+    }
+    .feature-icon {
+      width: 38px; height: 38px; display: grid; place-items: center; margin-bottom: 18px;
+      border: 1px solid rgba(101,186,255,.22); border-radius: 11px; color: var(--blue);
+      background: rgba(101,186,255,.08); font-size: 17px;
+    }
+    .feature:nth-child(2n) .feature-icon { color: var(--yellow); border-color: rgba(255,209,102,.22); background: rgba(255,209,102,.08); }
+    .feature h3 { margin: 0 0 7px; font-size: 15px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 12px; }
+    .download-panel {
+      display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px;
+      padding: 36px; border: 1px solid rgba(255,209,102,.25); border-radius: 20px;
+      background: radial-gradient(ellipse at 0% 0%, rgba(255,209,102,.12), transparent 55%), var(--panel);
+      box-shadow: 0 0 55px rgba(255,209,102,.06);
+    }
+    .download-panel h2 { margin-top: 0; }
+    .download-panel p { margin: 0; color: var(--muted); font-size: 13px; }
+    .faq { max-width: 760px; margin: auto; }
+    details { padding: 17px 0; border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; font-size: 14px; font-weight: 750; }
+    details p { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+    footer { margin-top: 60px; padding: 28px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 760px) {
+      .links { gap: 14px; } .links a { font-size: 11px; } .nav-download { padding: 9px 11px; font-size: 11px; }
+      .hero { padding: 80px 0 60px; } .mock { grid-template-columns: 120px 1fr; }
+      .grid { grid-template-columns: repeat(2, 1fr); } .download-panel { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 500px) {
+      .wrap { width: min(100% - 28px, 1120px); } .nav { height: 66px; }
+      .links { gap: 11px; } .links a:nth-child(3) { display: none; }
+      .brand { font-size: 16px; } .brand-mark { width: 33px; height: 33px; }
+      .hero p { font-size: 14px; } .preview { margin-top: 48px; }
+      .mock { grid-template-columns: 92px 1fr; min-height: 245px; }
+      .mock-side { padding: 15px 8px; } .mock-main { padding: 15px; }
+      .mock-item { padding: 8px 5px; font-size: 9px; } .mock-card { padding: 13px; }
+      .grid { grid-template-columns: 1fr; } section { padding: 58px 0; }
+      .download-panel { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Chronos home">
+        <span class="brand-mark">⌛</span>
+        <span>chronos<small>MINECRAFT LAUNCHER</small></span>
+      </a>
+      <nav class="links" aria-label="Main navigation">
+        <a href="#info">Info</a>
+        <a href="#download">Download</a>
+        <a href="#more">More</a>
+      </nav>
+      <a class="nav-download" href="./ChronosLauncher.exe" download>↓ Download</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow"><span class="dot"></span> Built for your Minecraft setup</div>
+        <h1>Your Minecraft.<br><span class="gradient">Your Chronos.</span></h1>
+        <p>A clean, customisable launcher that keeps your instances, mods and modpacks together. Less setup. More playing.</p>
+        <div class="actions">
+          <a class="button primary" href="./ChronosLauncher.exe" download>↓ Get Chronos for Windows</a>
+          <a class="button secondary" href="#info">Explore features <span aria-hidden="true">↘</span></a>
+        </div>
+        <p class="subnote">Windows desktop app · Minecraft Java Edition</p>
+
+        <div class="preview" aria-label="Chronos launcher interface preview">
+          <div class="app-window">
+            <div class="windowbar"><i></i><i></i><i></i><span>Chronos Launcher</span></div>
+            <div class="mock">
+              <aside class="mock-side">
+                <div class="mock-logo"><b>⌛</b> Chronos</div>
+                <div class="mock-item active">▦ &nbsp; Library</div>
+                <div class="mock-item">☻ &nbsp; Account</div>
+                <div class="mock-item">＋ &nbsp; New instance</div>
+              </aside>
+              <div class="mock-main">
+                <div class="mock-top"><h3>Welcome to Chronos</h3><span class="tag">READY TO PLAY</span></div>
+                <div class="mock-card">
+                  <strong>Your instances, all in one place.</strong>
+                  <p>Keep separate versions, settings and mods for every way you play.</p>
+                  <span class="mock-play">▶ &nbsp; Play</span>
+                  <div class="mock-bars"><i></i><i></i><i></i><i></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="info">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Everything in one place</div>
+          <h2>A launcher that stays out of your way.</h2>
+          <p>All the useful tools, wrapped in a simple interface with a dark look and soft yellow-and-blue accents.</p>
+        </div>
+        <div class="grid">
+          <article class="feature"><div class="feature-icon">▦</div><h3>Separate instances</h3><p>Keep different Minecraft versions, worlds, mods and settings organised independently.</p></article>
+          <article class="feature"><div class="feature-icon">◇</div><h3>Mod management</h3><p>Add, enable, disable and remove mods. Browse compatible Fabric mods from Modrinth.</p></article>
+          <article class="feature"><div class="feature-icon">⇄</div><h3>Modpack support</h3><p>Import and export Modrinth .mrpack files to move your setup between instances.</p></article>
+          <article class="feature"><div class="feature-icon">⚙</div><h3>Performance settings</h3><p>Choose JVM presets, adjust memory and apply simple video profiles.</p></article>
+          <article class="feature"><div class="feature-icon">◷</div><h3>Versions made simple</h3><p>Create instances for available releases and snapshots without mixing their files.</p></article>
+          <article class="feature"><div class="feature-icon">☻</div><h3>Microsoft sign-in</h3><p>Connect your Microsoft account to use your Minecraft Java profile and skin.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="wrap">
+        <div class="download-panel">
+          <div>
+            <div class="kicker">Ready when you are</div>
+            <h2>Meet your new launcher.</h2>
+            <p>Download Chronos for Windows and keep your Minecraft setup organised.</p>
+          </div>
+          <a class="button primary" href="./ChronosLauncher.exe" download>↓ Download .exe</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="more">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Good to know</div>
+          <h2>A few quick answers.</h2>
+        </div>
+        <div class="faq">
+          <details><summary>Where do I put the launcher file?</summary><p>Upload <strong>ChronosLauncher.exe</strong> into the same GitHub repository as this index.html file. The download links on this page will then point to it.</p></details>
+          <details><summary>Does Chronos need an internet connection?</summary><p>An internet connection is needed to download Minecraft files, browse mods and sign in. Already-downloaded game files can be managed locally.</p></details>
+          <details><summary>Can I use my own mods?</summary><p>Yes. You can add compatible .jar mods to an instance, or browse supported Fabric mods inside the launcher.</p></details>
+          <details><summary>Is this an official Minecraft product?</summary><p>No. Chronos is an independent community launcher and is not affiliated with or endorsed by Mojang or Microsoft.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© <span id="year"></span> Chronos Launcher</span>
+      <span>Made for your Minecraft setup.</span>
+    </div>
+  </footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
